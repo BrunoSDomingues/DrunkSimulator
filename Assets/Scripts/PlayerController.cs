@@ -22,9 +22,8 @@ public class PlayerController : MonoBehaviour {
         float z = Input.GetAxis("Vertical");
 
         float y = 0;
-        if (!characterController.isGrounded) {
+        if (!characterController.isGrounded)
             y = -gravity;
-        }
 
         // Walk to the left
         if (x < 0) {
