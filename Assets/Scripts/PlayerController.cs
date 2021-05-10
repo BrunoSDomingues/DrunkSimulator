@@ -2,7 +2,7 @@
 
 public class PlayerController : MonoBehaviour
 {
-    private float baseSpeed = 1.0f;
+    private float baseSpeed = 4f;
     private float gravity = 9.8f;
 
     private GameObject playerCamera;
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (x == 0)
         {
+            // Walk forward
             if (z > 0)
             {
                 animator.SetBool("fWalk", true);
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("lWalk", false);
                 animator.SetBool("rWalk", false);
             }
+            // Walk backwards
             else if (z < 0)
             {
                 animator.SetBool("fWalk", false);
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("lWalk", false);
                 animator.SetBool("rWalk", false);
             }
+            // Idle
             else
             {
                 animator.SetBool("fWalk", false);
@@ -71,9 +74,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Vector3 direction = new Vector3(x, y, z);
+        Vector3 direction = new Vector3(x, 0, z);
+        
+        direction = playerCamera.transform.TransformDirection(direction);
+        direction = direction * baseSpeed * Time.deltaTime;
+        direction.y = y;
 
-        characterController.Move(direction * baseSpeed * Time.deltaTime);
+        Debug.Log("direction: " + direction);
+
+        characterController.Move(direction);
     }
 
     private void CameraUpdate()
