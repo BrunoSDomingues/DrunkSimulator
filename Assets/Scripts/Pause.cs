@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class UI : MonoBehaviour {
+public class Pause : MonoBehaviour {
     [SerializeField]
     GameObject canvas;
 
@@ -10,11 +11,12 @@ public class UI : MonoBehaviour {
     public bool paused = false;
 
     public void Quit() => Application.Quit();
-    public void Menu() { }
-    public void Pause() {
+    public void Menu() => SceneManager.LoadScene("Menu");
+    public void PauseGame() {
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
         canvas.SetActive(true);
+
     }
     public void Unpause() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -30,7 +32,7 @@ public class UI : MonoBehaviour {
             if (paused)
                 Unpause();
             else
-                Pause();
+                PauseGame();
 
             paused = !paused;
 
