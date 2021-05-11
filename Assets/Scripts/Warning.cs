@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Menu : MonoBehaviour {
+public class Warning : MonoBehaviour {
     [SerializeField] GameObject main;
 
     public void Play() {
-        Debug.Log("Changed to warning");
-        SceneManager.LoadScene("Warning");
+        Debug.Log("Changed to game");
+        SceneManager.LoadScene("Game");
     }
     // Start is called before the first frame update
     void Start() {
