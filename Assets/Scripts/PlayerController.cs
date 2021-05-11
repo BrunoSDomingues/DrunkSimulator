@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -124,9 +125,12 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "House")
         {
-            Debug.Log("door");
             canvas.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F)) Debug.Log("Open");
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                SceneManager.LoadScene("Epilogue");
+            }
         }
         else canvas.SetActive(false);
     }

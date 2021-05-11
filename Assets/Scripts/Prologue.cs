@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 public class Prologue : MonoBehaviour
 {
     [SerializeField] GameObject main;
+    public GameObject canvasIntro, canvasControls;
+
+    public void ShowControls()
+    {
+        canvasIntro.SetActive(false);
+        canvasControls.SetActive(true);
+    }
 
     public void Play()
     {
