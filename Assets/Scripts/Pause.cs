@@ -18,6 +18,9 @@ public class Pause : MonoBehaviour {
         Cursor.visible = true;
         Time.timeScale = 0f;
         canvas.SetActive(true);
+        paused = true;
+        player.GetComponent<PlayerController>().paused = paused;
+
 
     }
     public void Unpause() {
@@ -25,6 +28,9 @@ public class Pause : MonoBehaviour {
         Cursor.visible = false;
         Time.timeScale = 1f;
         canvas.SetActive(false);
+        paused = false;
+        player.GetComponent<PlayerController>().paused = paused;
+
     }
 
     private void Start() => Unpause();
@@ -36,11 +42,6 @@ public class Pause : MonoBehaviour {
                 Unpause();
             else
                 PauseGame();
-
-            paused = !paused;
-
-            player.GetComponent<PlayerController>().paused = paused;
-
         }
     }
 
