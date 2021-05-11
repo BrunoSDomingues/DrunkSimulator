@@ -15,12 +15,14 @@ public class Pause : MonoBehaviour {
 
     public void PauseGame() {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
         canvas.SetActive(true);
 
     }
     public void Unpause() {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Time.timeScale = 1f;
         canvas.SetActive(false);
     }

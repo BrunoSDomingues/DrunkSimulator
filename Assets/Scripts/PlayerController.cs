@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
     public bool paused = false;
 
     private float baseSpeed = 4f;
@@ -17,8 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
 
-    private void Start()
-    {
+    private void Start() {
         canvas.SetActive(false);
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
@@ -26,10 +24,8 @@ public class PlayerController : MonoBehaviour
         cameraRotation = 0.0f;
     }
 
-    private void MovementUpdate()
-    {
-        if (!paused)
-        {
+    private void MovementUpdate() {
+        if (!paused) {
             xDir = Input.GetAxis("Horizontal");
             zDir = Input.GetAxis("Vertical");
 
@@ -38,42 +34,35 @@ public class PlayerController : MonoBehaviour
                 yDir = -gravity;
 
             // Walk to the left
-            if (xDir < 0)
-            {
+            if (xDir < 0) {
                 animator.SetBool("fWalk", false);
                 animator.SetBool("bWalk", false);
                 animator.SetBool("lWalk", true);
                 animator.SetBool("rWalk", false);
             }
             // Walk to the right
-            else if (xDir > 0)
-            {
+            else if (xDir > 0) {
                 animator.SetBool("fWalk", false);
                 animator.SetBool("bWalk", false);
                 animator.SetBool("lWalk", false);
                 animator.SetBool("rWalk", true);
-            }
-            else if (xDir == 0)
-            {
+            } else if (xDir == 0) {
                 // Walk forward
-                if (zDir > 0)
-                {
+                if (zDir > 0) {
                     animator.SetBool("fWalk", true);
                     animator.SetBool("bWalk", false);
                     animator.SetBool("lWalk", false);
                     animator.SetBool("rWalk", false);
                 }
                 // Walk backwards
-                else if (zDir < 0)
-                {
+                else if (zDir < 0) {
                     animator.SetBool("fWalk", false);
                     animator.SetBool("bWalk", true);
                     animator.SetBool("lWalk", false);
                     animator.SetBool("rWalk", false);
                 }
                 // Idle
-                else
-                {
+                else {
                     animator.SetBool("fWalk", false);
                     animator.SetBool("bWalk", false);
                     animator.SetBool("lWalk", false);
@@ -91,15 +80,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator Stumble()
-    {
+    private IEnumerator Stumble() {
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
         yield return new WaitForSeconds(6);
         Debug.Log("Finished Coroutine at timestamp : " + Time.time);
     }
 
-    private void CameraUpdate()
-    {
+    private void CameraUpdate() {
         if (paused)
             return;
         //Tratando movimentação do mouse
@@ -115,23 +102,20 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);
     }
 
-    private void Update()
-    {
+    private void Update() {
         MovementUpdate();
         CameraUpdate();
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "House")
-        {
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "House") {
             canvas.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
-            {
+            if (Input.GetKeyDown(KeyCode.F)) {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 SceneManager.LoadScene("Epilogue");
             }
-        }
-        else canvas.SetActive(false);
+        } else
+            canvas.SetActive(false);
     }
 }
