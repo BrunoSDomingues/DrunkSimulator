@@ -14,13 +14,11 @@ public class WorldGenerator : MonoBehaviour {
     void Generate(int roads) {
         float z = street.GetComponent<MeshRenderer>().bounds.size.z;
         float pos = z;
-        for (int i = 0; i < roads + 1; i++) {
+        for (int i = 0; i < 10; i++) {
             Instantiate(section, new Vector3(0, 0, pos), Quaternion.identity);
             pos += z;
         }
         Instantiate(house, new Vector3(16.6f, 6.2f, pos - z - 1), Quaternion.Euler(0, 180, 0));
     }
-    void Start() {
-        Generate(1);
-    }
+    void Start() => Generate(1);
 }
