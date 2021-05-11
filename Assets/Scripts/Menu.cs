@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class Menu : MonoBehaviour {
-    [SerializeField] GameObject main;
+    [SerializeField] AudioSource audiosrc;
+    [SerializeField] Slider slider;
+
 
     public void Play() {
         Debug.Log("Changed to warning");
@@ -10,10 +14,13 @@ public class Menu : MonoBehaviour {
     }
     // Start is called before the first frame update
     void Start() {
+        slider.value = MusicManager.instance.ambienceSource.volume;
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update() { }
 
+    public void VolumeSliderChanged() {
+        MusicManager.instance.ambienceSource.volume = slider.value;
     }
 }
