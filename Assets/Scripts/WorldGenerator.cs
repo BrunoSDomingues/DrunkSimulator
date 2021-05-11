@@ -10,7 +10,7 @@ public class WorldGenerator : MonoBehaviour {
     [SerializeField]
     private GameObject house;
 
-    private int nPrefabs = 15;
+    private int nPrefabs = 1;
 
 
     void Generate(int roads) {

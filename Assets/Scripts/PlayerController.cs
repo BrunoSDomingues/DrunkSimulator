@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private float xDir, yDir, zDir;
 
     private GameObject playerCamera;
+    public GameObject canvas;
     private float cameraRotation;
     private Animator animator;
 
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        canvas.SetActive(false);
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         playerCamera = GameObject.Find("Main Camera");
@@ -116,5 +118,16 @@ public class PlayerController : MonoBehaviour
     {
         MovementUpdate();
         CameraUpdate();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "House")
+        {
+            Debug.Log("door");
+            canvas.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.F)) Debug.Log("Open");
+        }
+        else canvas.SetActive(false);
     }
 }
