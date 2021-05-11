@@ -44,5 +44,6 @@ public class MusicManager : MonoBehaviour {
         ambienceSource.loop = true;
         ambienceSource.clip = music;
         ambienceSource.Play();
+        ambienceSource.volume = 0.4f;
     }
 }
