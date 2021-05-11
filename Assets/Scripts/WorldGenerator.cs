@@ -20,5 +20,5 @@ public class WorldGenerator : MonoBehaviour {
         }
         Instantiate(house, new Vector3(16.6f, 6.2f, pos - z - 1), Quaternion.Euler(0, 180, 0));
     }
-    void Start() => Generate(1);
+    void Start() => Generate(3);
 }

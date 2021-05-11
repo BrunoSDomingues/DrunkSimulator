@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
     public bool paused = false;
 
     private float baseSpeed = 4f;
     private float gravity = 9.8f;
-    private int number;
     private float xDir, yDir, zDir;
 
     private GameObject playerCamera;
@@ -15,86 +15,88 @@ public class PlayerController : MonoBehaviour {
 
     private CharacterController characterController;
 
-    private void Start() {
+    private void Start()
+    {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         playerCamera = GameObject.Find("Main Camera");
         cameraRotation = 0.0f;
     }
 
-    private void MovementUpdate() {
-        number = Random.Range(1, 21);
-
-        if (number == 20)
+    private void MovementUpdate()
+    {
+        if (!paused)
         {
-            Debug.Log("Stumbling...");
-            xDir = 0;
-            yDir = 0;
-            zDir = -1;
-            StartCoroutine(Stumble());
-            Debug.Log("Normal controls.");
-        }
-        else {
             xDir = Input.GetAxis("Horizontal");
             zDir = Input.GetAxis("Vertical");
 
             yDir = 0;
             if (!characterController.isGrounded)
                 yDir = -gravity;
-        }
 
-        // Walk to the left
-        if (xDir < 0) {
-            animator.SetBool("fWalk", false);
-            animator.SetBool("bWalk", false);
-            animator.SetBool("lWalk", true);
-            animator.SetBool("rWalk", false);
-        }
-        // Walk to the right
-        else if (xDir > 0) {
-            animator.SetBool("fWalk", false);
-            animator.SetBool("bWalk", false);
-            animator.SetBool("lWalk", false);
-            animator.SetBool("rWalk", true);
-        } else if (xDir == 0) {
-            // Walk forward
-            if (zDir > 0) {
-                animator.SetBool("fWalk", true);
-                animator.SetBool("bWalk", false);
-                animator.SetBool("lWalk", false);
-                animator.SetBool("rWalk", false);
-            }
-            // Walk backwards
-            else if (zDir < 0) {
+            // Walk to the left
+            if (xDir < 0)
+            {
                 animator.SetBool("fWalk", false);
-                animator.SetBool("bWalk", true);
-                animator.SetBool("lWalk", false);
+                animator.SetBool("bWalk", false);
+                animator.SetBool("lWalk", true);
                 animator.SetBool("rWalk", false);
             }
-            // Idle
-            else {
+            // Walk to the right
+            else if (xDir > 0)
+            {
                 animator.SetBool("fWalk", false);
                 animator.SetBool("bWalk", false);
                 animator.SetBool("lWalk", false);
-                animator.SetBool("rWalk", false);
+                animator.SetBool("rWalk", true);
             }
+            else if (xDir == 0)
+            {
+                // Walk forward
+                if (zDir > 0)
+                {
+                    animator.SetBool("fWalk", true);
+                    animator.SetBool("bWalk", false);
+                    animator.SetBool("lWalk", false);
+                    animator.SetBool("rWalk", false);
+                }
+                // Walk backwards
+                else if (zDir < 0)
+                {
+                    animator.SetBool("fWalk", false);
+                    animator.SetBool("bWalk", true);
+                    animator.SetBool("lWalk", false);
+                    animator.SetBool("rWalk", false);
+                }
+                // Idle
+                else
+                {
+                    animator.SetBool("fWalk", false);
+                    animator.SetBool("bWalk", false);
+                    animator.SetBool("lWalk", false);
+                    animator.SetBool("rWalk", false);
+                }
+            }
+
+            Vector3 direction = new Vector3(xDir, 0, zDir);
+
+            direction = playerCamera.transform.TransformDirection(direction);
+            direction = direction * baseSpeed * Time.deltaTime;
+            direction.y = yDir;
+
+            characterController.Move(direction);
         }
-
-        Vector3 direction = new Vector3(xDir, 0, zDir);
-
-        direction = playerCamera.transform.TransformDirection(direction);
-        direction = direction * baseSpeed * Time.deltaTime;
-        direction.y = yDir;
-
-        characterController.Move(direction);
     }
 
-    IEnumerator Stumble()
+    private IEnumerator Stumble()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        Debug.Log("Started Coroutine at timestamp : " + Time.time);
+        yield return new WaitForSeconds(6);
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
     }
 
-    private void CameraUpdate() {
+    private void CameraUpdate()
+    {
         if (paused)
             return;
         //Tratando movimentação do mouse
@@ -110,7 +112,8 @@ public class PlayerController : MonoBehaviour {
         playerCamera.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);
     }
 
-    private void Update() {
+    private void Update()
+    {
         MovementUpdate();
         CameraUpdate();
     }
