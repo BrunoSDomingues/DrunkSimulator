@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour {
 
     public void Play() {
         Debug.Log("Changed to warning");
-        SceneManager.LoadScene("Warning");
+        SceneManager.LoadScene("Menu 1");
     }
     // Start is called before the first frame update
     void Start() {
