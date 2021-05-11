@@ -14,7 +14,7 @@ public class WorldGenerator : MonoBehaviour {
     void Generate(int roads) {
         float z = street.GetComponent<MeshRenderer>().bounds.size.z;
         float pos = z;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < roads; i++) {
             Instantiate(section, new Vector3(0, 0, pos), Quaternion.identity);
             pos += z;
         }

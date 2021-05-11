@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    public bool paused = false;
+
     private float baseSpeed = 4f;
     private float gravity = 9.8f;
 
@@ -72,13 +74,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void CameraUpdate() {
+        if (paused)
+            return;
         //Tratando movimentação do mouse
         float mouse_dX = Input.GetAxis("Mouse X");
         float mouse_dY = Input.GetAxis("Mouse Y");
 
         //Tratando a rotação da câmera
         cameraRotation -= mouse_dY;
-        Mathf.Clamp(cameraRotation, -75.0f, 75.0f);
+        cameraRotation = Mathf.Clamp(cameraRotation, -75.0f, 75.0f);
 
         transform.Rotate(Vector3.up, mouse_dX);
 
