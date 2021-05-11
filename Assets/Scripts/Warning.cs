@@ -5,8 +5,8 @@ public class Warning : MonoBehaviour {
     [SerializeField] GameObject main;
 
     public void Play() {
-        Debug.Log("Changed to game");
-        SceneManager.LoadScene("Game");
+        Debug.Log("Changed to prologue");
+        SceneManager.LoadScene("Prologue");
     }
     // Start is called before the first frame update
     void Start() {

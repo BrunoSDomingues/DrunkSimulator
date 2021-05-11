@@ -10,6 +10,8 @@ public class WorldGenerator : MonoBehaviour {
     [SerializeField]
     private GameObject house;
 
+    private int nPrefabs = 15;
+
 
     void Generate(int roads) {
         float z = street.GetComponent<MeshRenderer>().bounds.size.z;
@@ -20,5 +22,5 @@ public class WorldGenerator : MonoBehaviour {
         }
         Instantiate(house, new Vector3(16.6f, 6.2f, pos - z - 1), Quaternion.Euler(0, 180, 0));
     }
-    void Start() => Generate(3);
+    void Start() => Generate(nPrefabs);
 }
