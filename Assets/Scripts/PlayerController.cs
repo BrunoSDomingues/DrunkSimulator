@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour {
     public bool paused = false;
 
     private float baseSpeed = 4f;
     private float gravity = 9.8f;
+    private int number;
+    private float xDir, yDir, zDir;
 
     private GameObject playerCamera;
     private float cameraRotation;
@@ -20,36 +23,49 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void MovementUpdate() {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        number = Random.Range(1, 21);
 
-        float y = 0;
-        if (!characterController.isGrounded)
-            y = -gravity;
+        if (number == 20)
+        {
+            Debug.Log("Stumbling...");
+            xDir = 0;
+            yDir = 0;
+            zDir = -1;
+            StartCoroutine(Stumble());
+            Debug.Log("Normal controls.");
+        }
+        else {
+            xDir = Input.GetAxis("Horizontal");
+            zDir = Input.GetAxis("Vertical");
+
+            yDir = 0;
+            if (!characterController.isGrounded)
+                yDir = -gravity;
+        }
 
         // Walk to the left
-        if (x < 0) {
+        if (xDir < 0) {
             animator.SetBool("fWalk", false);
             animator.SetBool("bWalk", false);
             animator.SetBool("lWalk", true);
             animator.SetBool("rWalk", false);
         }
         // Walk to the right
-        else if (x > 0) {
+        else if (xDir > 0) {
             animator.SetBool("fWalk", false);
             animator.SetBool("bWalk", false);
             animator.SetBool("lWalk", false);
             animator.SetBool("rWalk", true);
-        } else if (x == 0) {
+        } else if (xDir == 0) {
             // Walk forward
-            if (z > 0) {
+            if (zDir > 0) {
                 animator.SetBool("fWalk", true);
                 animator.SetBool("bWalk", false);
                 animator.SetBool("lWalk", false);
                 animator.SetBool("rWalk", false);
             }
             // Walk backwards
-            else if (z < 0) {
+            else if (zDir < 0) {
                 animator.SetBool("fWalk", false);
                 animator.SetBool("bWalk", true);
                 animator.SetBool("lWalk", false);
@@ -64,13 +80,18 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        Vector3 direction = new Vector3(x, 0, z);
+        Vector3 direction = new Vector3(xDir, 0, zDir);
 
         direction = playerCamera.transform.TransformDirection(direction);
         direction = direction * baseSpeed * Time.deltaTime;
-        direction.y = y;
+        direction.y = yDir;
 
         characterController.Move(direction);
+    }
+
+    IEnumerator Stumble()
+    {
+        yield return new WaitForSecondsRealtime(3f);
     }
 
     private void CameraUpdate() {
