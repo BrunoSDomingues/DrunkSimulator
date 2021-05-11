@@ -12,6 +12,10 @@ public class Menu : MonoBehaviour {
         Debug.Log("Changed to warning");
         SceneManager.LoadScene("Menu 1");
     }
+    public void Quit() {
+        Application.Quit();
+    }
+
     // Start is called before the first frame update
     void Start() {
         slider.value = MusicManager.instance.ambienceSource.volume;
